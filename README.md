@@ -49,3 +49,12 @@ Toggle between:
 
 - Click **Done** (or press Escape) to save all changes and return to the pause menu.
 - Settings are saved to `config/day-counter.json` and persist across restarts.
+
+---
+
+## Building
+
+```powershell
+gradle wrapper --gradle-version 9.4
+.\gradlew build
+```
