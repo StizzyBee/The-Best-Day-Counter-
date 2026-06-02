@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "day-counter",
+  "version": "1.0.0",
+  "name": "Day Counter",
+  "description": "Displays the current world day count. Position is configurable via the pause menu.",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.example.daycounter.DayCounterClient"
+    ]
+  },
+  "mixins": [
+    "day-counter.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.18.4",
+    "fabric-api": "*",
+    "minecraft": "~26.1"
+  }
+}
