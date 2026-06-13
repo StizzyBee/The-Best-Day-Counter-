@@ -2,87 +2,81 @@ package com.example.daycounter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.io.Reader;
-import java.io.Writer;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import net.fabricmc.loader.api.FabricLoader;
 
+import java.io.*;
+import java.nio.file.*;
+
+/**
+ * Persists position, scale, and language to config/day-counter.json
+ */
 public class DayCounterConfig {
-   private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-   private static final Path CONFIG_FILE = FabricLoader.getInstance().getConfigDir().resolve("day-counter.json");
-   public static final float SCALE_MIN = 0.5F;
-   public static final float SCALE_MAX = 5.0F;
-   public static final float SCALE_STEP = 0.25F;
-   public int x = 2;
-   public int y = 2;
-   public float scale = 1.0F;
-   public String language = DayCounterLanguage.ENGLISH.id;
-   public String font = DayCounterFont.DEFAULT.id;
-   public String textCase = DayCounterTextCase.NORMAL.id;
-   public int r = 255;
-   public int g = 255;
-   public int b = 255;
 
-   public DayCounterLanguage getLanguage() {
-      return DayCounterLanguage.fromId(this.language);
-   }
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final Path CONFIG_FILE =
+        FabricLoader.getInstance().getConfigDir().resolve("day-counter.json");
 
-   public void setLanguage(DayCounterLanguage lang) {
-      this.language = lang.id;
-   }
+    public static final float SCALE_MIN  = 0.5f;
+    public static final float SCALE_MAX  = 5.0f;
+    public static final float SCALE_STEP = 0.25f;
 
-   public DayCounterFont getFont() {
-      return DayCounterFont.fromId(this.font);
-   }
+    public int    x         = 2;
+    public int    y         = 2;
+    public float  scale     = 1.0f;
+    public int    refW      = 0;
+    public int    refH      = 0;
+    public String language  = DayCounterLanguage.ENGLISH.id;
+    public String font      = DayCounterFont.DEFAULT.id;
+    public String textCase  = DayCounterTextCase.NORMAL.id;
 
-   public void setFont(DayCounterFont f) {
-      this.font = f.id;
-   }
+    // ── Derived (not serialised) ───────────────────────────────────────────────
 
-   public DayCounterTextCase getTextCase() {
-      return DayCounterTextCase.fromId(this.textCase);
-   }
+    /** Convenience getter — resolves the stored id to the enum. */
+    public DayCounterLanguage getLanguage() {
+        return DayCounterLanguage.fromId(language);
+    }
 
-   public void setTextCase(DayCounterTextCase c) {
-      this.textCase = c.id;
-   }
+    public void setLanguage(DayCounterLanguage lang) {
+        this.language = lang.id;
+    }
 
-   public static DayCounterConfig load() {
-      if (Files.exists(CONFIG_FILE)) {
-         try (Reader r = Files.newBufferedReader(CONFIG_FILE)) {
-            DayCounterConfig cfg = (DayCounterConfig)GSON.fromJson(r, DayCounterConfig.class);
-            if (cfg != null) {
-               cfg.scale = Math.max(0.5F, Math.min(5.0F, cfg.scale));
-               if (cfg.language == null) {
-                  cfg.language = DayCounterLanguage.ENGLISH.id;
-               }
+    public DayCounterFont getFont() {
+        return DayCounterFont.fromId(font);
+    }
 
-               if (cfg.font == null) {
-                  cfg.font = DayCounterFont.DEFAULT.id;
-               }
+    public void setFont(DayCounterFont f) {
+        this.font = f.id;
+    }
 
-               if (cfg.textCase == null) {
-                  cfg.textCase = DayCounterTextCase.NORMAL.id;
-               }
+    public DayCounterTextCase getTextCase() {
+        return DayCounterTextCase.fromId(textCase);
+    }
 
-               cfg.r = Math.max(0, Math.min(255, cfg.r));
-               cfg.g = Math.max(0, Math.min(255, cfg.g));
-               cfg.b = Math.max(0, Math.min(255, cfg.b));
+    public void setTextCase(DayCounterTextCase c) {
+        this.textCase = c.id;
+    }
 
-               return cfg;
-            }
-         } catch (Exception var5) {
-         }
-      }
+    // ── Serialisation ──────────────────────────────────────────────────────────
 
-      return new DayCounterConfig();
-   }
+    public static DayCounterConfig load() {
+        if (Files.exists(CONFIG_FILE)) {
+            try (Reader r = Files.newBufferedReader(CONFIG_FILE)) {
+                DayCounterConfig cfg = GSON.fromJson(r, DayCounterConfig.class);
+                if (cfg != null) {
+                    cfg.scale = Math.max(SCALE_MIN, Math.min(SCALE_MAX, cfg.scale));
+                    if (cfg.language == null) cfg.language = DayCounterLanguage.ENGLISH.id;
+                    if (cfg.font == null)     cfg.font     = DayCounterFont.DEFAULT.id;
+                    if (cfg.textCase == null) cfg.textCase = DayCounterTextCase.NORMAL.id;
+                    return cfg;
+                }
+            } catch (Exception ignored) {}
+        }
+        return new DayCounterConfig();
+    }
 
-   public void save() {
-      try (Writer w = Files.newBufferedWriter(CONFIG_FILE)) {
-         GSON.toJson(this, w);
-      } catch (Exception var6) {
-      }
-   }
+    public void save() {
+        try (Writer w = Files.newBufferedWriter(CONFIG_FILE)) {
+            GSON.toJson(this, w);
+        } catch (Exception ignored) {}
+    }
 }

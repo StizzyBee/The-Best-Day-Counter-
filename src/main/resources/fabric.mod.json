@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "day-counter",
-  "version": "1.0.0",
+  "version": "${version}",
   "name": "Day Counter",
-  "description": "Displays the current world day count. Position is configurable via the pause menu.",
+  "description": "Shows how many in-game days have passed. Fully customizable: position, scale, language, font, text case, and alignment — all adjustable from the pause menu settings screen.",
   "authors": [],
   "contact": {},
   "license": "MIT",

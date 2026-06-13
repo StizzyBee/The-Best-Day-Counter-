@@ -43,10 +43,6 @@ tasks.withType(JavaCompile).configureEach {
     }
 }
 
-base {
-    archivesName = project.archives_base_name
-}
-
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(25)
