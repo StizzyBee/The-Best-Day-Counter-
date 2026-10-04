@@ -1,5 +1,7 @@
 # Day Counter
 
+**Minecraft 1.21.3:** an independent build is available in [versions/1.21.3](versions/1.21.3). See its README for loader requirements and build instructions.
+
 Displays the current world day count on your HUD. Everything is configurable from a settings screen inside the game — no config files to edit.
 
 > **Other versions:** [Forge](https://github.com/StizzyBee/The-Best-Day-Counter-Forge) · [NeoForge](https://github.com/StizzyBee/The-Best-Day-Counter-NeoForge)
