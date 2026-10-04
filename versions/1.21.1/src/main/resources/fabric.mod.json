@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "day-counter",
+  "version": "${version}",
+  "name": "Day Counter",
+  "description": "Shows how many in-game days have passed. Fully customizable: position, scale, language, font, text case, and alignment \u2014 all adjustable from the pause menu settings screen.",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.example.daycounter.DayCounterClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.18.5",
+    "fabric-api": ">=0.116.17+1.21.1",
+    "minecraft": "1.21.1",
+    "java": ">=21"
+  }
+}
